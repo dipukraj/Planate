@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सौर मंडल अन्वेषक - Solar System Explorer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌞 सौर मंडल अन्वेषक</h1>
+            <p>सौर मंडल की खोज करें और ग्रहों के बारे में जानें</p>
+        </header>
+        
+        <div class="solar-system">
+            <div class="sun" data-planet="sun">
+                <div class="sun-glow"></div>
+                <div class="planet-name">सूर्य</div>
+            </div>
+            
+            <!-- Mercury -->
+            <div class="orbit mercury-orbit">
+                <div class="planet mercury" data-planet="mercury">
+                    <div class="planet-name">बुध</div>
+                </div>
+            </div>
+            
+            <!-- Venus -->
+            <div class="orbit venus-orbit">
+                <div class="planet venus" data-planet="venus">
+                    <div class="planet-name">शुक्र</div>
+                </div>
+            </div>
+            
+            <!-- Earth with Moon -->
+            <div class="orbit earth-orbit">
+                <div class="planet earth" data-planet="earth">
+                    <div class="planet-name">पृथ्वी</div>
+                    <div class="moon-orbit">
+                        <div class="moon" data-planet="moon">
+                            <div class="planet-name">चंद्रमा</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mars -->
+            <div class="orbit mars-orbit">
+                <div class="planet mars" data-planet="mars">
+                    <div class="planet-name">मंगल</div>
+                </div>
+            </div>
+            
+            <!-- Jupiter -->
+            <div class="orbit jupiter-orbit">
+                <div class="planet jupiter" data-planet="jupiter">
+                    <div class="planet-name">बृहस्पति</div>
+                </div>
+            </div>
+            
+            <!-- Saturn -->
+            <div class="orbit saturn-orbit">
+                <div class="planet saturn" data-planet="saturn">
+                    <div class="planet-name">शनि</div>
+                    <div class="saturn-rings"></div>
+                </div>
+            </div>
+            
+            <!-- Uranus -->
+            <div class="orbit uranus-orbit">
+                <div class="planet uranus" data-planet="uranus">
+                    <div class="planet-name">अरुण</div>
+                </div>
+            </div>
+            
+            <!-- Neptune -->
+            <div class="orbit neptune-orbit">
+                <div class="planet neptune" data-planet="neptune">
+                    <div class="planet-name">वरुण</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel" id="infoPanel">
+            <h3 id="planetTitle">सूर्य</h3>
+            <div class="planet-info">
+                <p><strong>🌍 दूरी:</strong> <span id="distance">0 km (केंद्र)</span></p>
+                <p><strong>📏 व्यास:</strong> <span id="diameter">1,392,700 km</span></p>
+                <p><strong>🌡️ तापमान:</strong> <span id="temperature">5,778 K (सतह), 15,000,000 K (केंद्र)</span></p>
+                <p><strong>⚙️ कार्य:</strong> <span id="function">ऊर्जा का स्रोत, गुरुत्वाकर्षण केंद्र</span></p>
+                <p><strong>🔄 घूर्णन:</strong> <span id="rotation">25-35 दिन (अक्षीय घूर्णन)</span></p>
+                <p><strong>📝 विवरण:</strong> <span id="description">सूर्य हमारे सौर मंडल का केंद्र है। यह एक तारा है जो नाभिकीय संलयन से ऊर्जा पैदा करता है।</span></p>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="playPause">⏸️ रोकें</button>
+            <button id="speedUp">⏩ तेज करें</button>
+            <button id="slowDown">⏪ धीमा करें</button>
+            <button id="reset">🔄 रीसेट</button>
+            <button id="toggleInfo">ℹ️ जानकारी</button>
+        </div>
+        
+        <div class="legend">
+            <h4>🌌 सौर मंडल के तथ्य:</h4>
+            <ul>
+                <li>सूर्य से सबसे दूर: वरुण (4.5 बिलियन km)</li>
+                <li>सबसे बड़ा ग्रह: बृहस्पति</li>
+                <li>सबसे छोटा ग्रह: बुध</li>
+                <li>सबसे गर्म ग्रह: शुक्र</li>
+                <li>एकमात्र जीवन वाला ग्रह: पृथ्वी</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
