@@ -741,13 +741,19 @@ header p {
     position: fixed;
     top: 20px;
     left: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 25px;
     border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    max-width: 300px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(76, 175, 80, 0.3);
+    max-width: 320px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
+}
+
+.legend:hover {
+    border-color: rgba(76, 175, 80, 0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
 
 .legend h4 {
@@ -770,6 +776,98 @@ header p {
     font-size: 12px;
     line-height: 1.4;
     border-left: 3px solid #4CAF50;
+}
+
+/* Planet Legend Styles */
+.planet-legend {
+    margin-bottom: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: all 0.3s ease;
+}
+
+.legend-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.legend-item span {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.color-box:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+/* Planet Colors */
+.sun-color {
+    background: linear-gradient(45deg, #FFFF00, #FFD700, #FF8C00, #FF4500, #DC143C, #8B0000);
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+}
+
+.mercury-color {
+    background: linear-gradient(45deg, #8C7853, #A0522D);
+    box-shadow: 0 0 8px rgba(140, 120, 83, 0.6);
+}
+
+.venus-color {
+    background: linear-gradient(45deg, #FFC649, #FFA500);
+    box-shadow: 0 0 8px rgba(255, 198, 73, 0.6);
+}
+
+.earth-color {
+    background: linear-gradient(45deg, #6B93D6, #4CAF50, #87CEEB);
+    box-shadow: 0 0 8px rgba(107, 147, 214, 0.6);
+}
+
+.mars-color {
+    background: linear-gradient(45deg, #CD5C5C, #DC143C);
+    box-shadow: 0 0 8px rgba(205, 92, 92, 0.6);
+}
+
+.jupiter-color {
+    background: linear-gradient(45deg, #D8CA9D, #FAD5A5, #DEB887);
+    box-shadow: 0 0 10px rgba(216, 202, 157, 0.6);
+}
+
+.saturn-color {
+    background: linear-gradient(45deg, #FAD5A5, #DEB887);
+    box-shadow: 0 0 8px rgba(250, 213, 165, 0.6);
+}
+
+.uranus-color {
+    background: linear-gradient(45deg, #4FD0E7, #87CEEB);
+    box-shadow: 0 0 8px rgba(79, 208, 231, 0.6);
+}
+
+.neptune-color {
+    background: linear-gradient(45deg, #4B70DD, #4169E1);
+    box-shadow: 0 0 8px rgba(75, 112, 221, 0.6);
+}
+
+.moon-color {
+    background: linear-gradient(45deg, #C0C0C0, #E6E6FA);
+    box-shadow: 0 0 6px rgba(192, 192, 192, 0.6);
 }
 
 .highlighted {
