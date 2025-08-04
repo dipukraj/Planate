@@ -490,62 +490,23 @@ window.dispatchEvent(new Event('resize'));
 
 // Function to ensure all planet names are properly set
 function ensurePlanetNames() {
-    const planetNames = {
-        'sun': 'सूर्य',
-        'mercury': 'बुध',
-        'venus': 'शुक्र',
-        'earth': 'पृथ्वी',
-        'mars': 'मंगल',
-        'jupiter': 'बृहस्पति',
-        'saturn': 'शनि',
-        'uranus': 'अरुण',
-        'neptune': 'वरुण',
-        'moon': 'चंद्रमा'
-    };
+    // Add hover events to all planets and sun
+    const allElements = document.querySelectorAll('.planet, .sun, .moon');
     
-    // Add names to all planets including sun
-    Object.keys(planetNames).forEach(planetType => {
-        const planet = document.querySelector(`[data-planet="${planetType}"]`);
-        if (planet) {
-            let nameElement = planet.querySelector('.planet-name');
-            if (!nameElement) {
-                nameElement = document.createElement('div');
-                nameElement.className = 'planet-name';
-                planet.appendChild(nameElement);
-            }
-            nameElement.textContent = planetNames[planetType];
-            
-            // Remove any existing event listeners
-            planet.removeEventListener('mouseenter', showPlanetName);
-            planet.removeEventListener('mouseleave', hidePlanetName);
-            
-            // Add hover event listeners
-            planet.addEventListener('mouseenter', showPlanetName);
-            planet.addEventListener('mouseleave', hidePlanetName);
-        }
-    });
-    
-    // Also add to sun element specifically
-    const sun = document.querySelector('.sun');
-    if (sun) {
-        let sunNameElement = sun.querySelector('.planet-name');
-        if (!sunNameElement) {
-            sunNameElement = document.createElement('div');
-            sunNameElement.className = 'planet-name';
-            sun.appendChild(sunNameElement);
-        }
-        sunNameElement.textContent = 'सूर्य';
+    allElements.forEach(element => {
+        // Remove any existing event listeners
+        element.removeEventListener('mouseenter', showPlanetName);
+        element.removeEventListener('mouseleave', hidePlanetName);
         
-        sun.removeEventListener('mouseenter', showPlanetName);
-        sun.removeEventListener('mouseleave', hidePlanetName);
-        sun.addEventListener('mouseenter', showPlanetName);
-        sun.addEventListener('mouseleave', hidePlanetName);
-    }
+        // Add hover event listeners
+        element.addEventListener('mouseenter', showPlanetName);
+        element.addEventListener('mouseleave', hidePlanetName);
+    });
 }
 
 // Function to show planet name on hover
-function showPlanetName() {
-    const nameEl = this.querySelector('.planet-name');
+function showPlanetName(element) {
+    const nameEl = element.querySelector('.planet-name');
     if (nameEl) {
         nameEl.style.opacity = '1';
         nameEl.style.visibility = 'visible';
@@ -557,8 +518,8 @@ function showPlanetName() {
 }
 
 // Function to hide planet name on mouse leave
-function hidePlanetName() {
-    const nameEl = this.querySelector('.planet-name');
+function hidePlanetName(element) {
+    const nameEl = element.querySelector('.planet-name');
     if (nameEl) {
         nameEl.style.opacity = '0';
         nameEl.style.visibility = 'hidden';
