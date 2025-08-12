@@ -472,18 +472,36 @@ function addTooltips() {
 
 // Add smooth scrolling and responsive behavior
 window.addEventListener('resize', function() {
-    // Adjust solar system size for mobile
+    // Debounce resize events for better performance
+    clearTimeout(window.resizeTimeout);
+    window.resizeTimeout = setTimeout(function() {
+        adjustSolarSystemSize();
+    }, 250);
+});
+
+// Function to adjust solar system size based on screen size
+function adjustSolarSystemSize() {
     const solarSystem = document.querySelector('.solar-system');
     const container = document.querySelector('.container');
     
     if (window.innerWidth < 768) {
         solarSystem.style.transform = 'scale(0.6)';
+        solarSystem.style.width = '350px';
+        solarSystem.style.height = '350px';
     } else if (window.innerWidth < 1024) {
         solarSystem.style.transform = 'scale(0.8)';
+        solarSystem.style.width = '600px';
+        solarSystem.style.height = '600px';
+    } else if (window.innerWidth >= 1200) {
+        solarSystem.style.transform = 'scale(1)';
+        solarSystem.style.width = '900px';
+        solarSystem.style.height = '900px';
     } else {
         solarSystem.style.transform = 'scale(1)';
+        solarSystem.style.width = '800px';
+        solarSystem.style.height = '800px';
     }
-});
+}
 
 // Initialize responsive behavior
 window.dispatchEvent(new Event('resize'));
@@ -497,11 +515,30 @@ function ensurePlanetNames() {
         // Remove any existing event listeners
         element.removeEventListener('mouseenter', showPlanetName);
         element.removeEventListener('mouseleave', hidePlanetName);
+        element.removeEventListener('touchstart', handleTouchStart);
+        element.removeEventListener('touchend', handleTouchEnd);
         
-        // Add hover event listeners
+        // Add hover event listeners for desktop
         element.addEventListener('mouseenter', showPlanetName);
         element.addEventListener('mouseleave', hidePlanetName);
+        
+        // Add touch event listeners for mobile
+        element.addEventListener('touchstart', handleTouchStart);
+        element.addEventListener('touchend', handleTouchEnd);
     });
+}
+
+// Touch event handlers for mobile
+function handleTouchStart(event) {
+    event.preventDefault();
+    showPlanetName(event.target);
+}
+
+function handleTouchEnd(event) {
+    event.preventDefault();
+    setTimeout(() => {
+        hidePlanetName(event.target);
+    }, 2000); // Show name for 2 seconds on touch
 }
 
 // Function to show planet name on hover

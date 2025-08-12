@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background: #000000;
     color: white;
@@ -11,6 +15,8 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body::before {
@@ -1057,9 +1063,10 @@ header p {
 /* Enhanced responsive design */
 @media (max-width: 768px) {
     .solar-system {
-        width: 400px;
-        height: 400px;
-        transform: scale(0.7);
+        width: 350px;
+        height: 350px;
+        transform: scale(0.6);
+        margin: 20px auto;
     }
     
     .info-panel {
@@ -1070,6 +1077,7 @@ header p {
         margin: 20px;
         width: calc(100% - 40px);
         max-width: none;
+        padding: 20px;
     }
     
     .legend {
@@ -1078,20 +1086,34 @@ header p {
         left: auto;
         margin: 20px;
         max-width: none;
+        padding: 20px;
+    }
+    
+    header {
+        margin: 10px;
+        padding: 15px;
     }
     
     header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+    
+    header p {
+        font-size: 1rem;
     }
     
     .controls {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 8px;
+        padding: 15px;
+        bottom: 10px;
     }
     
     .controls button {
         padding: 10px 15px;
         font-size: 12px;
+        min-width: 80px;
     }
 
     .welcome-notification {
@@ -1105,6 +1127,71 @@ header p {
         max-width: 90%;
         padding: 15px 20px;
         font-size: 14px;
+    }
+    
+    /* Better touch targets for mobile */
+    .planet, .sun, .moon {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .planet-name {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+
+/* Tablet responsive design */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .solar-system {
+        width: 600px;
+        height: 600px;
+        transform: scale(0.8);
+    }
+    
+    .info-panel {
+        width: 300px;
+        right: 15px;
+    }
+    
+    .legend {
+        max-width: 280px;
+        left: 15px;
+    }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1200px) {
+    .solar-system {
+        width: 900px;
+        height: 900px;
+    }
+    
+    .info-panel {
+        width: 400px;
+    }
+    
+    .legend {
+        max-width: 350px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .planet:hover, .sun:hover, .moon:hover {
+        transform: none;
+    }
+    
+    .planet:active, .sun:active, .moon:active {
+        transform: scale(1.2);
+    }
+    
+    .social-link:hover {
+        transform: none;
+    }
+    
+    .social-link:active {
+        transform: scale(1.1);
     }
 }
 
@@ -1132,3 +1219,172 @@ header p {
 }
 
 /* JavaScript controls planet name visibility */
+
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 26, 46, 0.95));
+    border-top: 2px solid rgba(76, 175, 80, 0.3);
+    backdrop-filter: blur(15px);
+    margin-top: 50px;
+    position: relative;
+    z-index: 100;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.6), transparent);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-left, .footer-center, .footer-right {
+    flex: 1;
+    text-align: center;
+}
+
+.creator-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4CAF50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    background: linear-gradient(45deg, #4CAF50, #81C784);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.website-title {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.website-subtitle {
+    display: block;
+    font-size: 14px;
+    color: #ccc;
+    font-style: italic;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(129, 199, 132, 0.2));
+    border: 2px solid rgba(76, 175, 80, 0.4);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.social-link:hover::before {
+    left: 100%;
+}
+
+.social-link:hover {
+    transform: translateY(-5px) scale(1.1);
+    border-color: rgba(76, 175, 80, 0.8);
+    box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(129, 199, 132, 0.3));
+}
+
+.social-icon {
+    font-size: 18px;
+    transition: all 0.3s ease;
+    color: #4CAF50;
+    z-index: 1;
+    position: relative;
+}
+
+.social-link:hover .social-icon {
+    transform: scale(1.2);
+    color: #81C784;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.footer-bottom p {
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .footer-left, .footer-center, .footer-right {
+        text-align: center;
+    }
+    
+    .social-links {
+        gap: 10px;
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .social-icon {
+        font-size: 18px;
+        line-height: 36px;
+    }
+    
+    .creator-name {
+        font-size: 14px;
+    }
+    
+    .website-title {
+        font-size: 16px;
+    }
+    
+    .website-subtitle {
+        font-size: 12px;
+    }
+}
