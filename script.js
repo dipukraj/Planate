@@ -484,23 +484,61 @@ function adjustSolarSystemSize() {
     const solarSystem = document.querySelector('.solar-system');
     const container = document.querySelector('.container');
     
-    if (window.innerWidth < 768) {
-        solarSystem.style.transform = 'scale(0.6)';
-        solarSystem.style.width = '350px';
-        solarSystem.style.height = '350px';
-    } else if (window.innerWidth < 1024) {
+    if (window.innerWidth <= 480) {
+        // Small phones
+        solarSystem.style.transform = 'scale(0.8)';
+        solarSystem.style.width = '300px';
+        solarSystem.style.height = '300px';
+        adjustPlanetPositions('small-mobile');
+    } else if (window.innerWidth <= 768) {
+        // Medium phones
+        solarSystem.style.transform = 'scale(0.75)';
+        solarSystem.style.width = '400px';
+        solarSystem.style.height = '400px';
+        adjustPlanetPositions('medium-mobile');
+    } else if (window.innerWidth <= 1024) {
+        // Tablets
         solarSystem.style.transform = 'scale(0.8)';
         solarSystem.style.width = '600px';
         solarSystem.style.height = '600px';
+        adjustPlanetPositions('tablet');
     } else if (window.innerWidth >= 1200) {
+        // Large screens
         solarSystem.style.transform = 'scale(1)';
         solarSystem.style.width = '900px';
         solarSystem.style.height = '900px';
+        adjustPlanetPositions('desktop');
     } else {
+        // Standard desktop
         solarSystem.style.transform = 'scale(1)';
         solarSystem.style.width = '800px';
         solarSystem.style.height = '800px';
+        adjustPlanetPositions('desktop');
     }
+}
+
+// Function to adjust planet positions based on screen size
+function adjustPlanetPositions(screenSize) {
+    const planets = document.querySelectorAll('.planet, .sun, .moon');
+    
+    planets.forEach(planet => {
+        // Reset any inline styles that might interfere
+        planet.style.position = 'absolute';
+        
+        if (screenSize === 'small-mobile') {
+            // Ensure planets are properly sized for small mobile
+            if (planet.classList.contains('moon')) {
+                planet.style.width = '6px';
+                planet.style.height = '6px';
+            }
+        } else if (screenSize === 'medium-mobile') {
+            // Ensure planets are properly sized for medium mobile
+            if (planet.classList.contains('moon')) {
+                planet.style.width = '7px';
+                planet.style.height = '7px';
+            }
+        }
+    });
 }
 
 // Initialize responsive behavior

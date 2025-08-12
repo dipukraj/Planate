@@ -460,6 +460,79 @@ header p {
     box-shadow: 0 0 12px rgba(192, 192, 192, 0.9);
 }
 
+.moon-orbit {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -9px;
+    left: -9px;
+    animation: orbit 2s linear infinite;
+}
+
+/* Mobile moon orbit fix */
+@media (max-width: 768px) {
+    .moon-orbit {
+        width: 40px;
+        height: 40px;
+        top: -9px;
+        left: -9px;
+    }
+    
+    .moon {
+        width: 8px;
+        height: 8px;
+        top: -4px;
+        left: 16px;
+    }
+    
+    .moon:hover {
+        transform: scale(1.5);
+    }
+    
+    /* Mobile orbit sizes to prevent overlaps */
+    .mercury-orbit {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .venus-orbit {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .earth-orbit {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .mars-orbit {
+        width: 210px;
+        height: 210px;
+    }
+    
+    .jupiter-orbit {
+        width: 260px;
+        height: 260px;
+    }
+    
+    .saturn-orbit {
+        width: 330px;
+        height: 330px;
+    }
+    
+    .uranus-orbit {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .neptune-orbit {
+        width: 470px;
+        height: 470px;
+    }
+}
+
 /* Mercury */
 .mercury-orbit {
     width: 120px;
@@ -525,17 +598,6 @@ header p {
 .earth:hover {
     transform: scale(1.4);
     box-shadow: 0 0 20px rgba(107, 147, 214, 1);
-}
-
-.moon-orbit {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    top: -9px;
-    left: -9px;
-    animation: orbit 2s linear infinite;
 }
 
 /* Mars */
@@ -1061,12 +1123,53 @@ header p {
 }
 
 /* Enhanced responsive design */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
+    /* Small phones */
+    body {
+        padding-top: 0;
+        margin-top: 0;
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-top: 0;
+        margin-top: 0;
+    }
+    
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        margin: 0;
+        padding: 15px;
+        order: 1;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(76, 175, 80, 0.3);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
     .solar-system {
-        width: 350px;
-        height: 350px;
-        transform: scale(0.6);
-        margin: 20px auto;
+        width: 380px;
+        height: 380px;
+        transform: scale(0.85);
+        margin: 80px auto 10px auto;
+    }
+    
+    /* Mobile layout with better control positioning */
+    .legend {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 20px;
+        max-width: none;
+        padding: 20px;
+        order: 4;
     }
     
     .info-panel {
@@ -1078,8 +1181,214 @@ header p {
         width: calc(100% - 40px);
         max-width: none;
         padding: 20px;
+        order: 3;
     }
     
+    .controls {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 15px;
+        margin: 10px;
+        order: 2;
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .controls button {
+        padding: 10px 15px;
+        font-size: 12px;
+        min-width: 80px;
+        margin: 2px;
+    }
+    
+    .sun {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .sun-glow {
+        width: 110px;
+        height: 110px;
+        top: -32px;
+        left: -32px;
+    }
+    
+    .mercury {
+        width: 14px;
+        height: 14px;
+        top: -7px;
+        left: 35px;
+    }
+    
+    .venus {
+        width: 16px;
+        height: 16px;
+        top: -8px;
+        left: 48px;
+    }
+    
+    .earth {
+        width: 18px;
+        height: 18px;
+        top: -9px;
+        left: 62px;
+    }
+    
+    .mars {
+        width: 15px;
+        height: 15px;
+        top: -7.5px;
+        left: 80px;
+    }
+    
+    .jupiter {
+        width: 28px;
+        height: 28px;
+        top: -14px;
+        left: 100px;
+    }
+    
+    .saturn {
+        width: 22px;
+        height: 22px;
+        top: -11px;
+        left: 130px;
+    }
+    
+    .saturn-rings {
+        width: 30px;
+        height: 30px;
+        top: -6px;
+        left: -6px;
+    }
+    
+    .uranus {
+        width: 20px;
+        height: 20px;
+        top: -10px;
+        left: 160px;
+    }
+    
+    .neptune {
+        width: 18px;
+        height: 18px;
+        top: -9px;
+        left: 190px;
+    }
+    
+    /* Increased orbit sizes for better spacing */
+    .mercury-orbit {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .venus-orbit {
+        width: 105px;
+        height: 105px;
+    }
+    
+    .earth-orbit {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .mars-orbit {
+        width: 165px;
+        height: 165px;
+    }
+    
+    .jupiter-orbit {
+        width: 205px;
+        height: 205px;
+    }
+    
+    .saturn-orbit {
+        width: 265px;
+        height: 265px;
+    }
+    
+    .uranus-orbit {
+        width: 325px;
+        height: 325px;
+    }
+    
+    .neptune-orbit {
+        width: 385px;
+        height: 385px;
+    }
+    
+    .moon-orbit {
+        width: 35px;
+        height: 35px;
+        top: -8px;
+        left: -8px;
+    }
+    
+    .moon {
+        width: 7px;
+        height: 7px;
+        top: -3.5px;
+        left: 14px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+    
+    header p {
+        font-size: 0.9rem;
+        margin: 0;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Medium phones */
+    body {
+        padding-top: 0;
+        margin-top: 0;
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-top: 0;
+        margin-top: 0;
+    }
+    
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        margin: 0;
+        padding: 15px;
+        order: 1;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(76, 175, 80, 0.3);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .solar-system {
+        width: 450px;
+        height: 450px;
+        transform: scale(0.8);
+        margin: 80px auto 15px auto;
+    }
+    
+    /* Mobile layout with better control positioning for medium phones */
     .legend {
         position: relative;
         top: auto;
@@ -1087,62 +1396,179 @@ header p {
         margin: 20px;
         max-width: none;
         padding: 20px;
+        order: 4;
     }
     
-    header {
-        margin: 10px;
-        padding: 15px;
-    }
-    
-    header h1 {
-        font-size: 1.8rem;
-    }
-    
-    header p {
-        font-size: 1rem;
+    .info-panel {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 20px;
+        width: calc(100% - 40px);
+        max-width: none;
+        padding: 20px;
+        order: 3;
     }
     
     .controls {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
         flex-wrap: wrap;
         justify-content: center;
         gap: 8px;
         padding: 15px;
-        bottom: 10px;
+        margin: 10px;
+        order: 2;
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
     
     .controls button {
         padding: 10px 15px;
         font-size: 12px;
         min-width: 80px;
-    }
-
-    .welcome-notification {
-        max-width: 90%;
-        padding: 20px 25px;
-        font-size: 14px;
-        line-height: 1.6;
+        margin: 2px;
     }
     
-    .fact-notification {
-        max-width: 90%;
-        padding: 15px 20px;
-        font-size: 14px;
+    .sun {
+        width: 50px;
+        height: 50px;
     }
     
-    /* Better touch targets for mobile */
-    .planet, .sun, .moon {
-        min-width: 44px;
-        min-height: 44px;
+    .sun-glow {
+        width: 120px;
+        height: 120px;
+        top: -35px;
+        left: -35px;
     }
     
-    .planet-name {
-        font-size: 12px;
-        padding: 6px 12px;
+    .mercury {
+        width: 16px;
+        height: 16px;
+        top: -8px;
+        left: 42px;
+    }
+    
+    .venus {
+        width: 18px;
+        height: 18px;
+        top: -9px;
+        left: 58px;
+    }
+    
+    .earth {
+        width: 20px;
+        height: 20px;
+        top: -10px;
+        left: 75px;
+    }
+    
+    .mars {
+        width: 17px;
+        height: 17px;
+        top: -8.5px;
+        left: 95px;
+    }
+    
+    .jupiter {
+        width: 30px;
+        height: 30px;
+        top: -15px;
+        left: 118px;
+    }
+    
+    .saturn {
+        width: 24px;
+        height: 24px;
+        top: -12px;
+        left: 150px;
+    }
+    
+    .saturn-rings {
+        width: 32px;
+        height: 32px;
+        top: -6.5px;
+        left: -6.5px;
+    }
+    
+    .uranus {
+        width: 22px;
+        height: 22px;
+        top: -11px;
+        left: 182px;
+    }
+    
+    .neptune {
+        width: 20px;
+        height: 20px;
+        top: -10px;
+        left: 215px;
+    }
+    
+    /* Increased orbit sizes for better spacing */
+    .mercury-orbit {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .venus-orbit {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .earth-orbit {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .mars-orbit {
+        width: 190px;
+        height: 190px;
+    }
+    
+    .jupiter-orbit {
+        width: 235px;
+        height: 235px;
+    }
+    
+    .saturn-orbit {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .uranus-orbit {
+        width: 365px;
+        height: 365px;
+    }
+    
+    .neptune-orbit {
+        width: 430px;
+        height: 430px;
+    }
+    
+    .moon-orbit {
+        width: 40px;
+        height: 40px;
+        top: -9px;
+        left: -9px;
+    }
+    
+    .moon {
+        width: 8px;
+        height: 8px;
+        top: -4px;
+        left: 16px;
     }
 }
 
-/* Tablet responsive design */
 @media (min-width: 769px) and (max-width: 1024px) {
+    /* Tablets */
     .solar-system {
         width: 600px;
         height: 600px;
