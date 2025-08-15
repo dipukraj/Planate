@@ -6,9 +6,38 @@
     <title>सौर मंडल अन्वेषक - Solar System Explorer</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Certificate Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h2>🌞 सौर मंडल अन्वेषक</h2>
+            </div>
+            <div class="nav-controls">
+                <div class="language-switcher">
+                    <button class="language-btn" id="languageBtn">
+                        <i class="fas fa-globe"></i>
+                        <span id="currentLang">हिंदी</span>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" data-lang="hi">
+                            <span class="flag">🇮🇳</span>
+                            <span>हिंदी</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇺🇸</span>
+                            <span>English</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Header Section -->
         <header>
             <h1>🌞 सौर मंडल अन्वेषक</h1>
             <p>सौर मंडल की खोज करें और ग्रहों के बारे में जानें</p>
@@ -17,30 +46,30 @@
         <div class="solar-system">
             <div class="sun" data-planet="sun" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
                 <div class="sun-glow"></div>
-                <div class="planet-name">सूर्य</div>
+                <div class="planet-name">सूर्य (Sun)</div>
             </div>
             
             <!-- Mercury -->
             <div class="orbit mercury-orbit">
                 <div class="planet mercury" data-planet="mercury" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">बुध</div>
+                    <div class="planet-name">बुध (Mercury)</div>
                 </div>
             </div>
             
             <!-- Venus -->
             <div class="orbit venus-orbit">
                 <div class="planet venus" data-planet="venus" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">शुक्र</div>
+                    <div class="planet-name">शुक्र (Venus)</div>
                 </div>
             </div>
             
             <!-- Earth with Moon -->
             <div class="orbit earth-orbit">
                 <div class="planet earth" data-planet="earth" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">पृथ्वी</div>
+                    <div class="planet-name">पृथ्वी (Earth)</div>
                     <div class="moon-orbit">
                         <div class="moon" data-planet="moon" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                            <div class="planet-name">चंद्रमा</div>
+                            <div class="planet-name">चंद्रमा (Moon)</div>
                         </div>
                     </div>
                 </div>
@@ -49,21 +78,21 @@
             <!-- Mars -->
             <div class="orbit mars-orbit">
                 <div class="planet mars" data-planet="mars" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">मंगल</div>
+                    <div class="planet-name">मंगल (Mars)</div>
                 </div>
             </div>
             
             <!-- Jupiter -->
             <div class="orbit jupiter-orbit">
                 <div class="planet jupiter" data-planet="jupiter" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">बृहस्पति</div>
+                    <div class="planet-name">बृहस्पति (Jupiter)</div>
                 </div>
             </div>
             
             <!-- Saturn -->
             <div class="orbit saturn-orbit">
                 <div class="planet saturn" data-planet="saturn" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">शनि</div>
+                    <div class="planet-name">शनि (Saturn)</div>
                     <div class="saturn-rings"></div>
                 </div>
             </div>
@@ -71,14 +100,14 @@
             <!-- Uranus -->
             <div class="orbit uranus-orbit">
                 <div class="planet uranus" data-planet="uranus" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">अरुण</div>
+                    <div class="planet-name">अरुण (Uranus)</div>
                 </div>
             </div>
             
             <!-- Neptune -->
             <div class="orbit neptune-orbit">
                 <div class="planet neptune" data-planet="neptune" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">वरुण</div>
+                    <div class="planet-name">वरुण (Neptune)</div>
                 </div>
             </div>
         </div>
@@ -91,7 +120,23 @@
                 <p><strong>🌡️ तापमान:</strong> <span id="temperature">5,778 K (सतह), 15,000,000 K (केंद्र)</span></p>
                 <p><strong>⚙️ कार्य:</strong> <span id="function">ऊर्जा का स्रोत, गुरुत्वाकर्षण केंद्र</span></p>
                 <p><strong>🔄 घूर्णन:</strong> <span id="rotation">25-35 दिन (अक्षीय घूर्णन)</span></p>
+                <p><strong>🌫️ वायुमंडल:</strong> <span id="atmosphere">कोरोना और सोलर विंड</span></p>
+                <p><strong>⚖️ गुरुत्वाकर्षण:</strong> <span id="gravity">274 m/s² (पृथ्वी से 28 गुना)</span></p>
+                <p><strong>🌙 चंद्रमा:</strong> <span id="moons">0 (सूर्य का कोई चंद्रमा नहीं)</span></p>
+                <p><strong>🔍 खोज:</strong> <span id="discovery">प्राचीन काल से ज्ञात</span></p>
+                <p><strong>🧪 संरचना:</strong> <span id="composition">हाइड्रोजन (73%), हीलियम (25%), अन्य तत्व (2%)</span></p>
+                <p><strong>🏔️ सतही विशेषताएं:</strong> <span id="surfaceFeatures">सोलर स्पॉट्स, फ्लेयर्स, प्रोमिनेंसेस</span></p>
+                <p><strong>🎨 रंग का कारण:</strong> <span id="colorReason">नाभिकीय संलयन से निकलने वाली ऊर्जा</span></p>
                 <p><strong>📝 विवरण:</strong> <span id="description">सूर्य हमारे सौर मंडल का केंद्र है। यह एक तारा है जो नाभिकीय संलयन से ऊर्जा पैदा करता है।</span></p>
+                <div class="fun-facts-section">
+                    <h4>🎯 रोचक तथ्य:</h4>
+                    <ul id="funFacts">
+                        <li>सूर्य का द्रव्यमान सौर मंडल का 99.86% है</li>
+                        <li>सूर्य से प्रकाश पृथ्वी तक 8 मिनट 20 सेकंड में पहुंचता है</li>
+                        <li>सूर्य हर सेकंड में 600 मिलियन टन हाइड्रोजन को हीलियम में बदलता है</li>
+                        <li>सूर्य का तापमान केंद्र में 15,000,000°C है</li>
+                    </ul>
+                </div>
             </div>
         </div>
         
@@ -101,60 +146,65 @@
             <button id="slowDown">⏪ धीमा करें</button>
             <button id="reset">🔄 रीसेट</button>
             <button id="toggleInfo">ℹ️ जानकारी</button>
+            <button id="show3D">🌍 3D व्यू</button>
+            <button id="startQuiz">🎮 क्विज</button>
+            <button id="showTimeline">⏰ टाइमलाइन</button>
+            <button id="toggleSound">🔊 साउंड</button>
+            <button id="showFact">💡 तथ्य</button>
         </div>
         
         <div class="legend">
-            <h4>🌌 ग्रहों की पहचान:</h4>
+            <h4>🌌 ग्रहों की पहचान / Planet Identification:</h4>
             <div class="planet-legend">
                 <div class="legend-item">
                     <div class="color-box sun-color"></div>
-                    <span>सूर्य</span>
+                    <span>सूर्य (Sun)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box mercury-color"></div>
-                    <span>बुध</span>
+                    <span>बुध (Mercury)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box venus-color"></div>
-                    <span>शुक्र</span>
+                    <span>शुक्र (Venus)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box earth-color"></div>
-                    <span>पृथ्वी</span>
+                    <span>पृथ्वी (Earth)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box mars-color"></div>
-                    <span>मंगल</span>
+                    <span>मंगल (Mars)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box jupiter-color"></div>
-                    <span>बृहस्पति</span>
+                    <span>बृहस्पति (Jupiter)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box saturn-color"></div>
-                    <span>शनि</span>
+                    <span>शनि (Saturn)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box uranus-color"></div>
-                    <span>अरुण</span>
+                    <span>अरुण (Uranus)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box neptune-color"></div>
-                    <span>वरुण</span>
+                    <span>वरुण (Neptune)</span>
                 </div>
                 <div class="legend-item">
                     <div class="color-box moon-color"></div>
-                    <span>चंद्रमा</span>
+                    <span>चंद्रमा (Moon)</span>
                 </div>
             </div>
             
-            <h4 style="margin-top: 20px;">🌌 सौर मंडल के तथ्य:</h4>
+            <h4 style="margin-top: 20px;">🌌 सौर मंडल के तथ्य / Solar System Facts:</h4>
             <ul>
-                <li>सूर्य से सबसे दूर: वरुण (4.5 बिलियन km)</li>
-                <li>सबसे बड़ा ग्रह: बृहस्पति</li>
-                <li>सबसे छोटा ग्रह: बुध</li>
-                <li>सबसे गर्म ग्रह: शुक्र</li>
-                <li>एकमात्र जीवन वाला ग्रह: पृथ्वी</li>
+                <li>सूर्य से सबसे दूर: वरुण (4.5 बिलियन km) / Farthest from Sun: Neptune (4.5 billion km)</li>
+                <li>सबसे बड़ा ग्रह: बृहस्पति / Largest Planet: Jupiter</li>
+                <li>सबसे छोटा ग्रह: बुध / Smallest Planet: Mercury</li>
+                <li>सबसे गर्म ग्रह: शुक्र / Hottest Planet: Venus</li>
+                <li>एकमात्र जीवन वाला ग्रह: पृथ्वी / Only Planet with Life: Earth</li>
             </ul>
         </div>
     </div>
