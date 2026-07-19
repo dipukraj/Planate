@@ -34,6 +34,9 @@
         <div class="shooting-star"></div>
     </div>
 
+    <!-- Modal Backdrop Overlay for Planet Pop-Up Box -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closePlanetModal()"></div>
+
     <div class="container">
         <!-- Navigation Bar -->
         <nav class="navbar">
@@ -97,7 +100,7 @@
         <!-- Main Banner Header -->
         <header class="app-header">
             <h1 id="headerTitle">🌌 सौर मंडल अन्वेषक - Solar System Explorer</h1>
-            <p id="headerSubtitle">सूर्य से दूरी, आकार, स्थिति और संपूर्ण ब्रह्मांडीय रहस्यों की खोज करें</p>
+            <p id="headerSubtitle">किसी भी ग्रह पर क्लिक या टच करें और उसकी संपूर्ण जानकारी पॉप-अप में देखें</p>
         </header>
 
         <!-- Live Distance Tooltip Hover Card -->
@@ -124,7 +127,7 @@
                 </div>
             </div>
             <div class="hover-card-footer">
-                <span>क्लिक करके विस्तृत जानकारी देखें 👉</span>
+                <span>क्लिक या टच करके पॉप-अप मैसेज देखें 👉</span>
             </div>
         </div>
 
@@ -132,7 +135,7 @@
         <div class="view-section active" id="solarSystemContainer">
             <div class="solar-system">
                 <!-- Sun Center -->
-                <div class="sun" data-planet="sun" onmouseenter="handlePlanetHover(this)"
+                <div class="sun" data-planet="sun" onclick="selectPlanet('sun')" onmouseenter="handlePlanetHover(this)"
                     onmouseleave="handlePlanetLeave(this)">
                     <div class="sun-flare flare-1"></div>
                     <div class="sun-flare flare-2"></div>
@@ -142,9 +145,9 @@
 
                 <!-- Mercury Orbit -->
                 <div class="orbit mercury-orbit">
-                    <div class="orbit-badge" title="Mercury Distance">0.39 AU</div>
-                    <div class="planet mercury" data-planet="mercury" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Mercury Distance" onclick="selectPlanet('mercury')">0.39 AU</div>
+                    <div class="planet mercury" data-planet="mercury" onclick="selectPlanet('mercury')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">बुध (Mercury)</div>
                     </div>
@@ -152,9 +155,9 @@
 
                 <!-- Venus Orbit -->
                 <div class="orbit venus-orbit">
-                    <div class="orbit-badge" title="Venus Distance">0.72 AU</div>
-                    <div class="planet venus" data-planet="venus" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Venus Distance" onclick="selectPlanet('venus')">0.72 AU</div>
+                    <div class="planet venus" data-planet="venus" onclick="selectPlanet('venus')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">शुक्र (Venus)</div>
                     </div>
@@ -162,15 +165,16 @@
 
                 <!-- Earth Orbit with Moon -->
                 <div class="orbit earth-orbit">
-                    <div class="orbit-badge" title="Earth Distance">1.00 AU</div>
-                    <div class="planet earth" data-planet="earth" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Earth Distance" onclick="selectPlanet('earth')">1.00 AU</div>
+                    <div class="planet earth" data-planet="earth" onclick="selectPlanet('earth')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="earth-clouds"></div>
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">पृथ्वी (Earth)</div>
                         <div class="moon-orbit">
-                            <div class="moon" data-planet="moon" onmouseenter="handlePlanetHover(this)"
-                                onmouseleave="handlePlanetLeave(this)">
+                            <div class="moon" data-planet="moon"
+                                onclick="selectPlanet('moon'); event.stopPropagation();"
+                                onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                                 <div class="planet-name">चंद्रमा (Moon)</div>
                             </div>
                         </div>
@@ -179,9 +183,9 @@
 
                 <!-- Mars Orbit -->
                 <div class="orbit mars-orbit">
-                    <div class="orbit-badge" title="Mars Distance">1.52 AU</div>
-                    <div class="planet mars" data-planet="mars" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Mars Distance" onclick="selectPlanet('mars')">1.52 AU</div>
+                    <div class="planet mars" data-planet="mars" onclick="selectPlanet('mars')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="mars-ice-cap"></div>
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">मंगल (Mars)</div>
@@ -190,9 +194,9 @@
 
                 <!-- Jupiter Orbit -->
                 <div class="orbit jupiter-orbit">
-                    <div class="orbit-badge" title="Jupiter Distance">5.20 AU</div>
-                    <div class="planet jupiter" data-planet="jupiter" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Jupiter Distance" onclick="selectPlanet('jupiter')">5.20 AU</div>
+                    <div class="planet jupiter" data-planet="jupiter" onclick="selectPlanet('jupiter')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="jupiter-great-red-spot"></div>
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">बृहस्पति (Jupiter)</div>
@@ -201,9 +205,9 @@
 
                 <!-- Saturn Orbit -->
                 <div class="orbit saturn-orbit">
-                    <div class="orbit-badge" title="Saturn Distance">9.54 AU</div>
-                    <div class="planet saturn" data-planet="saturn" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Saturn Distance" onclick="selectPlanet('saturn')">9.54 AU</div>
+                    <div class="planet saturn" data-planet="saturn" onclick="selectPlanet('saturn')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="saturn-rings-3d">
                             <div class="ring ring-a"></div>
                             <div class="ring ring-b"></div>
@@ -216,9 +220,9 @@
 
                 <!-- Uranus Orbit -->
                 <div class="orbit uranus-orbit">
-                    <div class="orbit-badge" title="Uranus Distance">19.2 AU</div>
-                    <div class="planet uranus" data-planet="uranus" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Uranus Distance" onclick="selectPlanet('uranus')">19.2 AU</div>
+                    <div class="planet uranus" data-planet="uranus" onclick="selectPlanet('uranus')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="uranus-rings-3d"></div>
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">अरुण (Uranus)</div>
@@ -227,9 +231,9 @@
 
                 <!-- Neptune Orbit -->
                 <div class="orbit neptune-orbit">
-                    <div class="orbit-badge" title="Neptune Distance">30.1 AU</div>
-                    <div class="planet neptune" data-planet="neptune" onmouseenter="handlePlanetHover(this)"
-                        onmouseleave="handlePlanetLeave(this)">
+                    <div class="orbit-badge" title="Neptune Distance" onclick="selectPlanet('neptune')">30.1 AU</div>
+                    <div class="planet neptune" data-planet="neptune" onclick="selectPlanet('neptune')"
+                        onmouseenter="handlePlanetHover(this)" onmouseleave="handlePlanetLeave(this)">
                         <div class="neptune-spot"></div>
                         <div class="planet-atmosphere"></div>
                         <div class="planet-name">वरुण (Neptune)</div>
@@ -247,7 +251,7 @@
 
             <div class="linear-scale-track">
                 <!-- Sun Item -->
-                <div class="scale-item sun-scale-item" data-planet="sun">
+                <div class="scale-item sun-scale-item" data-planet="sun" onclick="selectPlanet('sun')">
                     <div class="scale-order-badge">0</div>
                     <div class="scale-planet-visual scale-sun-visual"></div>
                     <div class="scale-planet-info">
@@ -263,7 +267,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="mercury">
+                <div class="scale-item" data-planet="mercury" onclick="selectPlanet('mercury')">
                     <div class="scale-order-badge">1</div>
                     <div class="scale-planet-visual scale-mercury-visual"></div>
                     <div class="scale-planet-info">
@@ -279,7 +283,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="venus">
+                <div class="scale-item" data-planet="venus" onclick="selectPlanet('venus')">
                     <div class="scale-order-badge">2</div>
                     <div class="scale-planet-visual scale-venus-visual"></div>
                     <div class="scale-planet-info">
@@ -295,7 +299,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="earth">
+                <div class="scale-item" data-planet="earth" onclick="selectPlanet('earth')">
                     <div class="scale-order-badge">3</div>
                     <div class="scale-planet-visual scale-earth-visual"></div>
                     <div class="scale-planet-info">
@@ -311,7 +315,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="mars">
+                <div class="scale-item" data-planet="mars" onclick="selectPlanet('mars')">
                     <div class="scale-order-badge">4</div>
                     <div class="scale-planet-visual scale-mars-visual"></div>
                     <div class="scale-planet-info">
@@ -327,7 +331,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="jupiter">
+                <div class="scale-item" data-planet="jupiter" onclick="selectPlanet('jupiter')">
                     <div class="scale-order-badge">5</div>
                     <div class="scale-planet-visual scale-jupiter-visual"></div>
                     <div class="scale-planet-info">
@@ -343,7 +347,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="saturn">
+                <div class="scale-item" data-planet="saturn" onclick="selectPlanet('saturn')">
                     <div class="scale-order-badge">6</div>
                     <div class="scale-planet-visual scale-saturn-visual">
                         <div class="scale-saturn-ring"></div>
@@ -361,7 +365,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="uranus">
+                <div class="scale-item" data-planet="uranus" onclick="selectPlanet('uranus')">
                     <div class="scale-order-badge">7</div>
                     <div class="scale-planet-visual scale-uranus-visual"></div>
                     <div class="scale-planet-info">
@@ -377,7 +381,7 @@
                     <div class="connector-line"></div>
                 </div>
 
-                <div class="scale-item" data-planet="neptune">
+                <div class="scale-item" data-planet="neptune" onclick="selectPlanet('neptune')">
                     <div class="scale-order-badge">8</div>
                     <div class="scale-planet-visual scale-neptune-visual"></div>
                     <div class="scale-planet-info">
@@ -398,7 +402,7 @@
             <div class="planet-cards-grid" id="planetCardsGrid"></div>
         </div>
 
-        <!-- Glassmorphism Floating Info Panel HUD -->
+        <!-- Pop-Up Modal Box HUD (Center Modal Dialog) -->
         <div class="info-panel" id="infoPanel">
             <div class="panel-header">
                 <div class="panel-title-wrapper">
@@ -415,7 +419,7 @@
                         <i class="fas fa-volume-up"></i>
                         <span id="narrateBtnText">सुनें (Narrate)</span>
                     </button>
-                    <button class="close-panel-btn" id="closePanelBtn" title="Close Panel">
+                    <button class="close-panel-btn" id="closePanelBtn" onclick="closePlanetModal()" title="Close Panel">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -545,43 +549,43 @@
         <div class="legend">
             <h4>🌌 ग्रहों की पहचान एवं सूर्य से दूरी / Planets Distance Legend:</h4>
             <div class="planet-legend">
-                <div class="legend-item" data-planet="sun">
+                <div class="legend-item" data-planet="sun" onclick="selectPlanet('sun')">
                     <div class="color-box sun-color"></div>
                     <span>सूर्य (0 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="mercury">
+                <div class="legend-item" data-planet="mercury" onclick="selectPlanet('mercury')">
                     <div class="color-box mercury-color"></div>
                     <span>बुध (0.39 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="venus">
+                <div class="legend-item" data-planet="venus" onclick="selectPlanet('venus')">
                     <div class="color-box venus-color"></div>
                     <span>शुक्र (0.72 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="earth">
+                <div class="legend-item" data-planet="earth" onclick="selectPlanet('earth')">
                     <div class="color-box earth-color"></div>
                     <span>पृथ्वी (1.00 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="mars">
+                <div class="legend-item" data-planet="mars" onclick="selectPlanet('mars')">
                     <div class="color-box mars-color"></div>
                     <span>मंगल (1.52 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="jupiter">
+                <div class="legend-item" data-planet="jupiter" onclick="selectPlanet('jupiter')">
                     <div class="color-box jupiter-color"></div>
                     <span>बृहस्पति (5.20 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="saturn">
+                <div class="legend-item" data-planet="saturn" onclick="selectPlanet('saturn')">
                     <div class="color-box saturn-color"></div>
                     <span>शनि (9.54 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="uranus">
+                <div class="legend-item" data-planet="uranus" onclick="selectPlanet('uranus')">
                     <div class="color-box uranus-color"></div>
                     <span>अरुण (19.2 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="neptune">
+                <div class="legend-item" data-planet="neptune" onclick="selectPlanet('neptune')">
                     <div class="color-box neptune-color"></div>
                     <span>वरुण (30.1 AU)</span>
                 </div>
-                <div class="legend-item" data-planet="moon">
+                <div class="legend-item" data-planet="moon" onclick="selectPlanet('moon')">
                     <div class="color-box moon-color"></div>
                     <span>चंद्रमा (Earth Moon)</span>
                 </div>

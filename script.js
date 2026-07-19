@@ -688,55 +688,36 @@ function hidePlanetName(el) {
 function handlePlanetHover(el) {}
 function handlePlanetLeave(el) {}
 
-// Planet Selection Logic & HUD Update (Handles Click & Touch on All Planets)
-function setupPlanetClickEvents() {
-    const triggerSelect = (e) => {
-        // Find closest element with data-planet attribute
-        const target = e.target.closest('[data-planet]');
-        if (target) {
-            e.stopPropagation();
-            const pKey = target.getAttribute('data-planet');
-            if (pKey) {
-                selectPlanet(pKey);
-                playBeepSound();
-            }
-        }
-    };
+// Global Modal Controllers
+window.closePlanetModal = function() {
+    const panel = document.getElementById('infoPanel');
+    const backdrop = document.getElementById('modalBackdrop');
+    if (panel) panel.classList.remove('active');
+    if (backdrop) backdrop.classList.remove('active');
+    stopSpeech();
+};
 
-    // Attach click and touch events via delegation
-    document.addEventListener('click', triggerSelect);
-    document.addEventListener('touchend', (e) => {
-        const target = e.target.closest('[data-planet]');
-        if (target) {
-            triggerSelect(e);
-        }
-    });
-
-    // Info panel close button
-    const closeBtn = document.getElementById('closePanelBtn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('infoPanel').classList.remove('active');
-            stopSpeech();
-        });
-    }
-}
-
-function selectPlanet(planetKey) {
+window.selectPlanet = function(planetKey) {
     if (!planetKey) return;
     currentPlanet = planetKey;
-    const data = getPlanetDataset()[planetKey];
+    const dataset = getPlanetDataset();
+    const data = dataset[planetKey];
     if (!data) return;
 
     // Highlight selected planet visually
     document.querySelectorAll('[data-planet]').forEach(el => el.classList.remove('planet-selected'));
     document.querySelectorAll(`[data-planet="${planetKey}"]`).forEach(el => el.classList.add('planet-selected'));
 
-    // Open Info Panel HUD
+    // Open Pop-Up Modal & Backdrop Overlay
     const panel = document.getElementById('infoPanel');
-    panel.classList.add('active');
-    panel.scrollTop = 0;
+    const backdrop = document.getElementById('modalBackdrop');
+    if (panel) {
+        panel.classList.add('active');
+        panel.scrollTop = 0;
+    }
+    if (backdrop) {
+        backdrop.classList.add('active');
+    }
 
     // Reset Tabs to Overview
     const tabs = document.querySelectorAll('.panel-tab');
@@ -785,7 +766,18 @@ function selectPlanet(planetKey) {
     });
 
     stopSpeech();
+    playBeepSound();
+};
+
+function setupPlanetClickEvents() {
+    // ESC key closes modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            window.closePlanetModal();
+        }
+    });
 }
+
 
 // Live Distance Hover Card Tooltip
 function setupHoverTooltip() {
