@@ -1,33 +1,87 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>सौर मंडल अन्वेषक - Solar System Explorer</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Certificate Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <link rel="icon" type="image/jpg" href="/image/solar system logo.avif">
-
 </head>
+
 <body>
+    <!-- Background Space Effects -->
+    <div class="space-nebula nebula-1"></div>
+    <div class="space-nebula nebula-2"></div>
+    <div class="space-nebula nebula-3"></div>
+    <div class="shooting-stars-container">
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
+
     <div class="container">
         <!-- Navigation Bar -->
         <nav class="navbar">
             <div class="nav-brand">
-                <h2>🌞 सौर मंडल अन्वेषक</h2>
+                <div class="brand-icon">🌞</div>
+                <div class="brand-text">
+                    <h2>सौर मंडल अन्वेषक</h2>
+                    <span>Solar System Explorer</span>
+                </div>
             </div>
+
+            <!-- Search Bar -->
+            <div class="nav-search">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="planetSearchInput" placeholder="ग्रह खोजें... / Search planet..."
+                        autocomplete="off">
+                    <button class="clear-search-btn" id="clearSearchBtn" style="display:none;"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+            </div>
+
+            <!-- View Switcher Controls -->
+            <div class="view-switcher">
+                <button class="view-btn active" id="viewOrbitBtn" data-view="orbit" title="Orbits View">
+                    <i class="fas fa-circle-notch"></i>
+                    <span data-i18n="orbitView">ऑर्बिट व्यू</span>
+                </button>
+                <button class="view-btn" id="viewScaleBtn" data-view="scale" title="Linear Distance & Order">
+                    <i class="fas fa-ruler-horizontal"></i>
+                    <span data-i18n="scaleView">दूरी & क्रम</span>
+                </button>
+                <button class="view-btn" id="viewGridBtn" data-view="grid" title="Planet Cards Grid">
+                    <i class="fas fa-th-large"></i>
+                    <span data-i18n="gridView">ग्रह कार्ड्स</span>
+                </button>
+            </div>
+
             <div class="nav-controls">
                 <div class="language-switcher">
                     <button class="language-btn" id="languageBtn">
                         <i class="fas fa-globe"></i>
                         <span id="currentLang">हिंदी</span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </button>
                     <div class="language-dropdown" id="languageDropdown">
-                        <div class="language-option" data-lang="hi">
+                        <div class="language-option active" data-lang="hi">
                             <span class="flag">🇮🇳</span>
                             <span>हिंदी</span>
                         </div>
@@ -39,227 +93,552 @@
                 </div>
             </div>
         </nav>
-        
-        <!-- Header Section -->
-        <header>
-            <h1>🌞 सौर मंडल अन्वेषक</h1>
-            <p>सौर मंडल की खोज करें और ग्रहों के बारे में जानें</p>
+
+        <!-- Main Banner Header -->
+        <header class="app-header">
+            <h1 id="headerTitle">🌌 सौर मंडल अन्वेषक - Solar System Explorer</h1>
+            <p id="headerSubtitle">सूर्य से दूरी, आकार, स्थिति और संपूर्ण ब्रह्मांडीय रहस्यों की खोज करें</p>
         </header>
-        
-        <div class="solar-system">
-            <div class="sun" data-planet="sun" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                <div class="sun-glow"></div>
-                <div class="planet-name">सूर्य (Sun)</div>
+
+        <!-- Live Distance Tooltip Hover Card -->
+        <div class="planet-hover-card" id="planetHoverCard">
+            <div class="hover-card-header">
+                <span class="hover-planet-name" id="hoverPlanetName">Earth</span>
+                <span class="hover-planet-type" id="hoverPlanetType">Terrestrial Planet</span>
             </div>
-            
-            <!-- Mercury -->
-            <div class="orbit mercury-orbit">
-                <div class="planet mercury" data-planet="mercury" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">बुध (Mercury)</div>
+            <div class="hover-card-body">
+                <div class="hover-stat">
+                    <i class="fas fa-ruler"></i>
+                    <span class="hover-stat-label">सूर्य से दूरी:</span>
+                    <span class="hover-stat-value" id="hoverPlanetDistance">149.6M km (1.00 AU)</span>
+                </div>
+                <div class="hover-stat">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="hover-stat-label">परिक्रमा गति:</span>
+                    <span class="hover-stat-value" id="hoverPlanetSpeed">29.78 km/s</span>
+                </div>
+                <div class="hover-stat">
+                    <i class="fas fa-globe"></i>
+                    <span class="hover-stat-label">व्यास:</span>
+                    <span class="hover-stat-value" id="hoverPlanetDiameter">12,756 km</span>
                 </div>
             </div>
-            
-            <!-- Venus -->
-            <div class="orbit venus-orbit">
-                <div class="planet venus" data-planet="venus" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">शुक्र (Venus)</div>
+            <div class="hover-card-footer">
+                <span>क्लिक करके विस्तृत जानकारी देखें 👉</span>
+            </div>
+        </div>
+
+        <!-- VIEW 1: Solar Orbit 2D Interactive System -->
+        <div class="view-section active" id="solarSystemContainer">
+            <div class="solar-system">
+                <!-- Sun Center -->
+                <div class="sun" data-planet="sun" onmouseenter="handlePlanetHover(this)"
+                    onmouseleave="handlePlanetLeave(this)">
+                    <div class="sun-flare flare-1"></div>
+                    <div class="sun-flare flare-2"></div>
+                    <div class="sun-glow"></div>
+                    <div class="planet-name">सूर्य (Sun)</div>
+                </div>
+
+                <!-- Mercury Orbit -->
+                <div class="orbit mercury-orbit">
+                    <div class="orbit-badge" title="Mercury Distance">0.39 AU</div>
+                    <div class="planet mercury" data-planet="mercury" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">बुध (Mercury)</div>
+                    </div>
+                </div>
+
+                <!-- Venus Orbit -->
+                <div class="orbit venus-orbit">
+                    <div class="orbit-badge" title="Venus Distance">0.72 AU</div>
+                    <div class="planet venus" data-planet="venus" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">शुक्र (Venus)</div>
+                    </div>
+                </div>
+
+                <!-- Earth Orbit with Moon -->
+                <div class="orbit earth-orbit">
+                    <div class="orbit-badge" title="Earth Distance">1.00 AU</div>
+                    <div class="planet earth" data-planet="earth" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="earth-clouds"></div>
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">पृथ्वी (Earth)</div>
+                        <div class="moon-orbit">
+                            <div class="moon" data-planet="moon" onmouseenter="handlePlanetHover(this)"
+                                onmouseleave="handlePlanetLeave(this)">
+                                <div class="planet-name">चंद्रमा (Moon)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mars Orbit -->
+                <div class="orbit mars-orbit">
+                    <div class="orbit-badge" title="Mars Distance">1.52 AU</div>
+                    <div class="planet mars" data-planet="mars" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="mars-ice-cap"></div>
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">मंगल (Mars)</div>
+                    </div>
+                </div>
+
+                <!-- Jupiter Orbit -->
+                <div class="orbit jupiter-orbit">
+                    <div class="orbit-badge" title="Jupiter Distance">5.20 AU</div>
+                    <div class="planet jupiter" data-planet="jupiter" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="jupiter-great-red-spot"></div>
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">बृहस्पति (Jupiter)</div>
+                    </div>
+                </div>
+
+                <!-- Saturn Orbit -->
+                <div class="orbit saturn-orbit">
+                    <div class="orbit-badge" title="Saturn Distance">9.54 AU</div>
+                    <div class="planet saturn" data-planet="saturn" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="saturn-rings-3d">
+                            <div class="ring ring-a"></div>
+                            <div class="ring ring-b"></div>
+                            <div class="ring ring-c"></div>
+                        </div>
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">शनि (Saturn)</div>
+                    </div>
+                </div>
+
+                <!-- Uranus Orbit -->
+                <div class="orbit uranus-orbit">
+                    <div class="orbit-badge" title="Uranus Distance">19.2 AU</div>
+                    <div class="planet uranus" data-planet="uranus" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="uranus-rings-3d"></div>
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">अरुण (Uranus)</div>
+                    </div>
+                </div>
+
+                <!-- Neptune Orbit -->
+                <div class="orbit neptune-orbit">
+                    <div class="orbit-badge" title="Neptune Distance">30.1 AU</div>
+                    <div class="planet neptune" data-planet="neptune" onmouseenter="handlePlanetHover(this)"
+                        onmouseleave="handlePlanetLeave(this)">
+                        <div class="neptune-spot"></div>
+                        <div class="planet-atmosphere"></div>
+                        <div class="planet-name">वरुण (Neptune)</div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Earth with Moon -->
-            <div class="orbit earth-orbit">
-                <div class="planet earth" data-planet="earth" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">पृथ्वी (Earth)</div>
-                    <div class="moon-orbit">
-                        <div class="moon" data-planet="moon" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                            <div class="planet-name">चंद्रमा (Moon)</div>
+        </div>
+
+        <!-- VIEW 2: Linear Distance & Scale Alignment View -->
+        <div class="view-section" id="linearScaleViewContainer" style="display: none;">
+            <div class="scale-view-header">
+                <h3>📏 सौर मंडल दूरी एवं क्रम विज़ुअलाइज़र (Planetary Distance & Order Alignment)</h3>
+                <p>सूर्य से दूरी के आधार पर सभी ग्रहों की वास्तविक स्थिति और क्रम:</p>
+            </div>
+
+            <div class="linear-scale-track">
+                <!-- Sun Item -->
+                <div class="scale-item sun-scale-item" data-planet="sun">
+                    <div class="scale-order-badge">0</div>
+                    <div class="scale-planet-visual scale-sun-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>सूर्य (Sun)</h4>
+                        <span class="scale-distance">0 AU (केंद्र)</span>
+                        <span class="scale-type">तारा (Star)</span>
+                    </div>
+                </div>
+
+                <!-- Mercury Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">57.9M km (0.39 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="mercury">
+                    <div class="scale-order-badge">1</div>
+                    <div class="scale-planet-visual scale-mercury-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>बुध (Mercury)</h4>
+                        <span class="scale-distance">57.9 Million km</span>
+                        <span class="scale-type">आंतरिक चट्टानी ग्रह</span>
+                    </div>
+                </div>
+
+                <!-- Venus Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">108.2M km (0.72 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="venus">
+                    <div class="scale-order-badge">2</div>
+                    <div class="scale-planet-visual scale-venus-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>शुक्र (Venus)</h4>
+                        <span class="scale-distance">108.2 Million km</span>
+                        <span class="scale-type">सबसे गर्म ग्रह</span>
+                    </div>
+                </div>
+
+                <!-- Earth Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">149.6M km (1.00 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="earth">
+                    <div class="scale-order-badge">3</div>
+                    <div class="scale-planet-visual scale-earth-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>पृथ्वी (Earth)</h4>
+                        <span class="scale-distance">149.6 Million km</span>
+                        <span class="scale-type">जीवन का एकमात्र घर</span>
+                    </div>
+                </div>
+
+                <!-- Mars Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">227.9M km (1.52 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="mars">
+                    <div class="scale-order-badge">4</div>
+                    <div class="scale-planet-visual scale-mars-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>मंगल (Mars)</h4>
+                        <span class="scale-distance">227.9 Million km</span>
+                        <span class="scale-type">लाल ग्रह (Red Planet)</span>
+                    </div>
+                </div>
+
+                <!-- Jupiter Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">778.6M km (5.20 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="jupiter">
+                    <div class="scale-order-badge">5</div>
+                    <div class="scale-planet-visual scale-jupiter-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>बृहस्पति (Jupiter)</h4>
+                        <span class="scale-distance">778.6 Million km</span>
+                        <span class="scale-type">सबसे बड़ा गैस दानव</span>
+                    </div>
+                </div>
+
+                <!-- Saturn Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">1.43B km (9.54 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="saturn">
+                    <div class="scale-order-badge">6</div>
+                    <div class="scale-planet-visual scale-saturn-visual">
+                        <div class="scale-saturn-ring"></div>
+                    </div>
+                    <div class="scale-planet-info">
+                        <h4>शनि (Saturn)</h4>
+                        <span class="scale-distance">1.43 Billion km</span>
+                        <span class="scale-type">छल्लों वाला ग्रह</span>
+                    </div>
+                </div>
+
+                <!-- Uranus Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">2.87B km (19.2 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="uranus">
+                    <div class="scale-order-badge">7</div>
+                    <div class="scale-planet-visual scale-uranus-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>अरुण (Uranus)</h4>
+                        <span class="scale-distance">2.87 Billion km</span>
+                        <span class="scale-type">बर्फ़ीला दानव</span>
+                    </div>
+                </div>
+
+                <!-- Neptune Item -->
+                <div class="scale-connector">
+                    <span class="connector-dist">4.50B km (30.1 AU)</span>
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="scale-item" data-planet="neptune">
+                    <div class="scale-order-badge">8</div>
+                    <div class="scale-planet-visual scale-neptune-visual"></div>
+                    <div class="scale-planet-info">
+                        <h4>वरुण (Neptune)</h4>
+                        <span class="scale-distance">4.50 Billion km</span>
+                        <span class="scale-type">सबसे दूर का ग्रह</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: Planet Cards Grid View -->
+        <div class="view-section" id="planetGridViewContainer" style="display: none;">
+            <div class="grid-header">
+                <h3>🪐 सभी खगोलीय पिंड & ग्रह कार्ड्स (Solar System Bodies)</h3>
+                <p>विस्तृत कार्ड पर क्लिक करके किसी भी ग्रह की संपूर्ण जानकारी प्राप्त करें:</p>
+            </div>
+            <div class="planet-cards-grid" id="planetCardsGrid"></div>
+        </div>
+
+        <!-- Glassmorphism Floating Info Panel HUD -->
+        <div class="info-panel" id="infoPanel">
+            <div class="panel-header">
+                <div class="panel-title-wrapper">
+                    <div class="panel-planet-icon" id="panelPlanetIcon">🌞</div>
+                    <div>
+                        <h3 id="planetTitle">सूर्य (Sun)</h3>
+                        <span class="panel-planet-subtitle" id="planetSubtitle">सौर मंडल का केंद्र</span>
+                    </div>
+                </div>
+
+                <div class="panel-header-actions">
+                    <!-- Text to Speech Narration Button -->
+                    <button class="narrate-btn" id="narrateBtn" title="Listen Narration">
+                        <i class="fas fa-volume-up"></i>
+                        <span id="narrateBtnText">सुनें (Narrate)</span>
+                    </button>
+                    <button class="close-panel-btn" id="closePanelBtn" title="Close Panel">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Navigation Tabs -->
+            <div class="panel-tabs">
+                <button class="panel-tab active" data-tab="overview"><i class="fas fa-info-circle"></i> <span>सामान्य
+                        परिचय</span></button>
+                <button class="panel-tab" data-tab="structure"><i class="fas fa-layer-group"></i> <span>संरचना &
+                        वातावरण</span></button>
+                <button class="panel-tab" data-tab="orbit"><i class="fas fa-sync-alt"></i> <span>परिक्रमा &
+                        चंद्रमा</span></button>
+                <button class="panel-tab" data-tab="facts"><i class="fas fa-lightbulb"></i> <span>रोचक
+                        तथ्य</span></button>
+            </div>
+
+            <!-- Tab Content 1: Overview -->
+            <div class="tab-content active" id="tabOverview">
+                <p class="planet-description" id="description">सूर्य हमारे सौर मंडल का केंद्र है।</p>
+                <div class="quick-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-ruler-combined"></i></div>
+                        <div class="stat-details">
+                            <span class="stat-label">सूर्य से दूरी</span>
+                            <span class="stat-value" id="distance">0 km</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-expand-alt"></i></div>
+                        <div class="stat-details">
+                            <span class="stat-label">व्यास (Diameter)</span>
+                            <span class="stat-value" id="diameter">1,392,700 km</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-thermometer-half"></i></div>
+                        <div class="stat-details">
+                            <span class="stat-label">तापमान (Temp)</span>
+                            <span class="stat-value" id="temperature">5,778 K</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-weight"></i></div>
+                        <div class="stat-details">
+                            <span class="stat-label">गुरुत्वाकर्षण</span>
+                            <span class="stat-value" id="gravity">274 m/s²</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Mars -->
-            <div class="orbit mars-orbit">
-                <div class="planet mars" data-planet="mars" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">मंगल (Mars)</div>
+
+            <!-- Tab Content 2: Structure & Atmosphere -->
+            <div class="tab-content" id="tabStructure">
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-atom"></i> रासायनिक संरचना:</span>
+                    <span class="detail-value" id="composition">हाइड्रोजन (73%), हीलियम (25%)</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-wind"></i> वायुमंडल (Atmosphere):</span>
+                    <span class="detail-value" id="atmosphere">कोरोना और सोलर विंड</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-mountain"></i> सतही विशेषताएं:</span>
+                    <span class="detail-value" id="surfaceFeatures">सोलर स्पॉट्स, फ्लेयर्स</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-palette"></i> रंग का वैज्ञानिक कारण:</span>
+                    <span class="detail-value" id="colorReason">नाभिकीय संलयन से निकलने वाली ऊर्जा</span>
                 </div>
             </div>
-            
-            <!-- Jupiter -->
-            <div class="orbit jupiter-orbit">
-                <div class="planet jupiter" data-planet="jupiter" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">बृहस्पति (Jupiter)</div>
+
+            <!-- Tab Content 3: Orbit & Moons -->
+            <div class="tab-content" id="tabOrbit">
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-redo"></i> घूर्णन & परिक्रमा:</span>
+                    <span class="detail-value" id="rotation">25-35 दिन</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-moon"></i> चंद्रमाओं की संख्या:</span>
+                    <span class="detail-value" id="moons">0</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-search-location"></i> खोज का इतिहास:</span>
+                    <span class="detail-value" id="discovery">प्राचीन काल से ज्ञात</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-cog"></i> मुख्य कार्य/भूमिका:</span>
+                    <span class="detail-value" id="function">ऊर्जा का स्रोत, गुरुत्वाकर्षण केंद्र</span>
                 </div>
             </div>
-            
-            <!-- Saturn -->
-            <div class="orbit saturn-orbit">
-                <div class="planet saturn" data-planet="saturn" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">शनि (Saturn)</div>
-                    <div class="saturn-rings"></div>
-                </div>
-            </div>
-            
-            <!-- Uranus -->
-            <div class="orbit uranus-orbit">
-                <div class="planet uranus" data-planet="uranus" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">अरुण (Uranus)</div>
-                </div>
-            </div>
-            
-            <!-- Neptune -->
-            <div class="orbit neptune-orbit">
-                <div class="planet neptune" data-planet="neptune" onmouseenter="showPlanetName(this)" onmouseleave="hidePlanetName(this)">
-                    <div class="planet-name">वरुण (Neptune)</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="info-panel" id="infoPanel">
-            <h3 id="planetTitle">सूर्य</h3>
-            <div class="planet-info">
-                <p><strong>🌍 दूरी:</strong> <span id="distance">0 km (केंद्र)</span></p>
-                <p><strong>📏 व्यास:</strong> <span id="diameter">1,392,700 km</span></p>
-                <p><strong>🌡️ तापमान:</strong> <span id="temperature">5,778 K (सतह), 15,000,000 K (केंद्र)</span></p>
-                <p><strong>⚙️ कार्य:</strong> <span id="function">ऊर्जा का स्रोत, गुरुत्वाकर्षण केंद्र</span></p>
-                <p><strong>🔄 घूर्णन:</strong> <span id="rotation">25-35 दिन (अक्षीय घूर्णन)</span></p>
-                <p><strong>🌫️ वायुमंडल:</strong> <span id="atmosphere">कोरोना और सोलर विंड</span></p>
-                <p><strong>⚖️ गुरुत्वाकर्षण:</strong> <span id="gravity">274 m/s² (पृथ्वी से 28 गुना)</span></p>
-                <p><strong>🌙 चंद्रमा:</strong> <span id="moons">0 (सूर्य का कोई चंद्रमा नहीं)</span></p>
-                <p><strong>🔍 खोज:</strong> <span id="discovery">प्राचीन काल से ज्ञात</span></p>
-                <p><strong>🧪 संरचना:</strong> <span id="composition">हाइड्रोजन (73%), हीलियम (25%), अन्य तत्व (2%)</span></p>
-                <p><strong>🏔️ सतही विशेषताएं:</strong> <span id="surfaceFeatures">सोलर स्पॉट्स, फ्लेयर्स, प्रोमिनेंसेस</span></p>
-                <p><strong>🎨 रंग का कारण:</strong> <span id="colorReason">नाभिकीय संलयन से निकलने वाली ऊर्जा</span></p>
-                <p><strong>📝 विवरण:</strong> <span id="description">सूर्य हमारे सौर मंडल का केंद्र है। यह एक तारा है जो नाभिकीय संलयन से ऊर्जा पैदा करता है।</span></p>
+
+            <!-- Tab Content 4: Fun Facts -->
+            <div class="tab-content" id="tabFacts">
                 <div class="fun-facts-section">
-                    <h4>🎯 रोचक तथ्य:</h4>
+                    <h4>🎯 रोचक तथ्य (Fun Facts):</h4>
                     <ul id="funFacts">
                         <li>सूर्य का द्रव्यमान सौर मंडल का 99.86% है</li>
-                        <li>सूर्य से प्रकाश पृथ्वी तक 8 मिनट 20 सेकंड में पहुंचता है</li>
-                        <li>सूर्य हर सेकंड में 600 मिलियन टन हाइड्रोजन को हीलियम में बदलता है</li>
-                        <li>सूर्य का तापमान केंद्र में 15,000,000°C है</li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
+        <!-- Controls Toolbar Bar -->
         <div class="controls">
-            <button id="playPause">⏸️ रोकें</button>
-            <button id="speedUp">⏩ तेज करें</button>
-            <button id="slowDown">⏪ धीमा करें</button>
-            <button id="reset">🔄 रीसेट</button>
-            <button id="toggleInfo">ℹ️ जानकारी</button>
-            <button id="show3D">🌍 3D व्यू</button>
-            <button id="startQuiz">🎮 क्विज</button>
-            <button id="showTimeline">⏰ टाइमलाइन</button>
-            <button id="toggleSound">🔊 साउंड</button>
-            <button id="showFact">💡 तथ्य</button>
+            <button id="playPause" title="Pause / Play Orbits"><i class="fas fa-pause"></i> <span
+                    data-i18n="pause">रोकें</span></button>
+            <button id="speedUp" title="Increase Speed"><i class="fas fa-forward"></i> <span data-i18n="speedUp">तेज
+                    करें</span></button>
+            <button id="slowDown" title="Decrease Speed"><i class="fas fa-backward"></i> <span data-i18n="slowDown">धीमा
+                    करें</span></button>
+            <button id="reset" title="Reset Orbits"><i class="fas fa-sync-alt"></i> <span
+                    data-i18n="reset">रीसेट</span></button>
+            <button id="toggleInfo" title="Toggle Info Panel"><i class="fas fa-info-circle"></i> <span
+                    data-i18n="info">जानकारी</span></button>
+            <button id="startQuiz" title="Take Quiz"><i class="fas fa-gamepad"></i> <span
+                    data-i18n="quiz">क्विज</span></button>
+            <button id="showTimeline" title="View Timeline"><i class="fas fa-history"></i> <span
+                    data-i18n="timeline">टाइमलाइन</span></button>
+            <button id="toggleSound" title="Toggle Sound Effects"><i class="fas fa-volume-up"></i> <span
+                    data-i18n="sound">साउंड</span></button>
+            <button id="showFact" title="Random Fact"><i class="fas fa-lightbulb"></i> <span
+                    data-i18n="fact">तथ्य</span></button>
         </div>
-        
+
+        <!-- Solar System Distance & Identification Legend -->
         <div class="legend">
-            <h4>🌌 ग्रहों की पहचान / Planet Identification:</h4>
+            <h4>🌌 ग्रहों की पहचान एवं सूर्य से दूरी / Planets Distance Legend:</h4>
             <div class="planet-legend">
-                <div class="legend-item">
+                <div class="legend-item" data-planet="sun">
                     <div class="color-box sun-color"></div>
-                    <span>सूर्य (Sun)</span>
+                    <span>सूर्य (0 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="mercury">
                     <div class="color-box mercury-color"></div>
-                    <span>बुध (Mercury)</span>
+                    <span>बुध (0.39 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="venus">
                     <div class="color-box venus-color"></div>
-                    <span>शुक्र (Venus)</span>
+                    <span>शुक्र (0.72 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="earth">
                     <div class="color-box earth-color"></div>
-                    <span>पृथ्वी (Earth)</span>
+                    <span>पृथ्वी (1.00 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="mars">
                     <div class="color-box mars-color"></div>
-                    <span>मंगल (Mars)</span>
+                    <span>मंगल (1.52 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="jupiter">
                     <div class="color-box jupiter-color"></div>
-                    <span>बृहस्पति (Jupiter)</span>
+                    <span>बृहस्पति (5.20 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="saturn">
                     <div class="color-box saturn-color"></div>
-                    <span>शनि (Saturn)</span>
+                    <span>शनि (9.54 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="uranus">
                     <div class="color-box uranus-color"></div>
-                    <span>अरुण (Uranus)</span>
+                    <span>अरुण (19.2 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="neptune">
                     <div class="color-box neptune-color"></div>
-                    <span>वरुण (Neptune)</span>
+                    <span>वरुण (30.1 AU)</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-planet="moon">
                     <div class="color-box moon-color"></div>
-                    <span>चंद्रमा (Moon)</span>
+                    <span>चंद्रमा (Earth Moon)</span>
                 </div>
             </div>
-            
-            <h4 style="margin-top: 20px;">🌌 सौर मंडल के तथ्य / Solar System Facts:</h4>
-            <ul>
-                <li>सूर्य से सबसे दूर: वरुण (4.5 बिलियन km) / Farthest from Sun: Neptune (4.5 billion km)</li>
-                <li>सबसे बड़ा ग्रह: बृहस्पति / Largest Planet: Jupiter</li>
-                <li>सबसे छोटा ग्रह: बुध / Smallest Planet: Mercury</li>
-                <li>सबसे गर्म ग्रह: शुक्र / Hottest Planet: Venus</li>
-                <li>एकमात्र जीवन वाला ग्रह: पृथ्वी / Only Planet with Life: Earth</li>
-            </ul>
         </div>
     </div>
-    
+
     <!-- Footer Section -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-left">
                 <div class="creator-info">
-                    <span class="creator-name">✨Created by: Dipu K Raj ❤️</span>
+                    <span class="creator-name">✨ Created by: Dipu K Raj ❤️</span>
                 </div>
             </div>
-            
+
             <div class="footer-center">
                 <div class="website-info">
                     <span class="website-title">🌞 सौर मंडल अन्वेषक</span>
                     <span class="website-subtitle">Solar System Explorer</span>
                 </div>
             </div>
-            
+
             <div class="footer-right">
                 <div class="social-links">
-                    <a href="https://www.facebook.com/dipu.kraj.92" class="social-link" title="Facebook">
+                    <a href="https://www.facebook.com/dipu.kraj.92" target="_blank" class="social-link"
+                        title="Facebook">
                         <i class="fab fa-facebook-f social-icon"></i>
                     </a>
-                    <a href="https://www.instagram.com/r.p.dipu" class="social-link" title="Instagram">
+                    <a href="https://www.instagram.com/r.p.dipu" target="_blank" class="social-link" title="Instagram">
                         <i class="fab fa-instagram social-icon"></i>
                     </a>
-                    <a href="https://youtube.com/@explorewithdipu" class="social-link" title="YouTube">
+                    <a href="https://youtube.com/@explorewithdipu" target="_blank" class="social-link" title="YouTube">
                         <i class="fab fa-youtube social-icon"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/dipukraj" class="social-link" title="LinkedIn">
+                    <a href="https://www.linkedin.com/in/dipukraj" target="_blank" class="social-link" title="LinkedIn">
                         <i class="fab fa-linkedin-in social-icon"></i>
                     </a>
-                    <a href="https://wa.me/7295808100" class="social-link" title="WhatsApp">
+                    <a href="https://wa.me/7295808100" target="_blank" class="social-link" title="WhatsApp">
                         <i class="fab fa-whatsapp social-icon"></i>
                     </a>
-                    <a href=" https://dipukraj.me/" class="social-link" title="Website">
+                    <a href="https://dipukraj.me/" target="_blank" class="social-link" title="Website">
                         <i class="fa-solid fa-globe social-icon"></i>
                     </a>
-                    <a href="https://github.com/dipukraj" class="social-link" title="GitHub">
+                    <a href="https://github.com/dipukraj" target="_blank" class="social-link" title="GitHub">
                         <i class="fab fa-github social-icon"></i>
                     </a>
                 </div>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
             <p>&copy; 2025 सौर मंडल अन्वेषक. सभी अधिकार सुरक्षित.</p>
         </div>
     </footer>
-    
+
     <script src="script.js"></script>
 </body>
+
 </html>
